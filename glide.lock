@@ -1,0 +1,10 @@
+hash: 8891c7a335bcee01f870af919590df1454bac7ed08aa2c35fa2dc76cfaea034e
+updated: 2017-01-15T22:45:09.039120384+08:00
+imports:
+- name: github.com/deckarep/gosx-notifier
+  version: 9daaf8a4715ebe4daf300036644762fe27d3aded
+- name: gopkg.in/go-playground/webhooks.v2
+  version: 1e0ece40dfb932b8e951dda513497142fede68f9
+  subpackages:
+  - github
+testImports: []

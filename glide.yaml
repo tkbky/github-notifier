@@ -1,0 +1,5 @@
+package: .
+import:
+- package: github.com/deckarep/gosx-notifier
+- package: gopkg.in/go-playground/webhooks.v2
+  version: ~2.0.0
