@@ -29,22 +29,40 @@ func main() {
 	}
 }
 
+type message struct {
+	title    string
+	subtitle string
+	body     string
+	url      string
+}
+
+func newMessage(pr github.PullRequest, r github.Repository) message {
+	return message{
+		title:    r.Name,
+		subtitle: pr.Title,
+		body:     pr.Body,
+		url:      pr.HTMLURL,
+	}
+}
+
 // HandleEvent handles Github event
 func HandleEvent(payload interface{}, header webhooks.Header) {
 	switch payload.(type) {
 	case github.PullRequestPayload:
 		pullRequest := payload.(github.PullRequestPayload)
 		if strings.Contains(pullRequest.PullRequest.Body, fmt.Sprintf("@%s", "tkbky")) {
-			notify(pullRequest.Repository.FullName, pullRequest.PullRequest.Title, pullRequest.PullRequest.HTMLURL, pullRequest.PullRequest.Body)
+			msg := newMessage(pullRequest.PullRequest, pullRequest.Repository)
+			notify(msg)
 		}
 	}
 }
 
-func notify(title string, subtitle string, link string, msg string) {
-	note := gosxnotifier.NewNotification(msg)
-	note.Title = title
-	note.Subtitle = subtitle
-	note.Link = link
+func notify(message message) {
+	note := gosxnotifier.NewNotification(message.body)
+	note.Title = message.title
+	note.Subtitle = message.subtitle
+	note.Link = message.url
+	note.AppIcon = "octocat.png"
 
 	err := note.Push()
 
